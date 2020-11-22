@@ -1,0 +1,22 @@
+
+
+GET NEXT LINE:
+
+- main function
+	> In the main function there's a character string variable for the line to print out the read line, and int variables for 
+	file descriptors.
+	> The files are then opened in the main, and the file descriptor int variables are assigned the returned non-negative from
+	succesfully opening the file. 
+	> Then, the function get_next_line is called, with the parameters file descriptor and double pointer to the line. The passed
+	arguments are the file descriptor got from opening the files and the line variable declared in the main.
+- get_next_line
+	> In the get_next_line function, there is first a check to see whether the file descriptor is smaller than zero (meaning the
+	opening of the file was not succesful). If this is the case, the funcntion returns (-1).
+	> The variables declared in the get_next_line are:
+		~ static character string to store what has been read from the file descriptor.
+		~ character array 'buffer', sized [BUFF_SIZE] that is either defined aprior in the header file or given in the command 
+			line argument.
+		~ character string 'temporary' to store the joined string resulting from joining the static char string and the buffer.
+		~ int variable to store the returned integer from calling the read function
+	> In a while loop, that is conditioned by whether the 'reader' variable is more than zero (meaning that the reading of the file descriptor into 
+	the buffer was succesful) we call the 'read' function with the parameters file descriptor (passed into the get_next_line function), 
