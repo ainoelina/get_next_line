@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/17 12:37:07 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/22 14:57:47 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/23 09:38:26 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			get_next_line(int fd, char **line)
 		return (-1);
 	if (reader == 0 && array[fd] == NULL)
 		return (0);
-	return (string_output(fd, line, array));
+	return(string_output(fd, line, array));
 }
 
 int		main(void)
