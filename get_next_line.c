@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/17 12:37:07 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/23 09:38:26 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/23 09:52:40 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	string_output(int fd, char **line, char **array)
 int			get_next_line(int fd, char **line)
 {
 	static char	*array[FD_SIZE];
-	char		*buffer[BUFF_SIZE + 1];
+	char		buffer[BUFF_SIZE + 1];
 	char		*temp;
 	int			reader;
 
