@@ -6,57 +6,39 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/21 10:15:32 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/22 14:28:05 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/23 15:09:55 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	char		*destination;
-	const char	*source;
-	size_t		i;
-
-	i = 0;
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	destination = (char *)dst;
-	source = (const char*)src;
-	while (i < n)
-	{
-		destination[i] = source[i];
-		i++;
-	}
-	return (dst);
-}
-
 size_t	ft_strlen(const char *s)
 {
-	size_t lenght;
+	size_t length;
 
-	lenght = 0;
-	while (*s != '\0')
-	{
-		lenght++;
-		s++;
-	}
-	return (lenght);
+	length = 0;
+	while (s[length] != '\0')
+		length++;
+	return (length);
 }
 
 char	*ft_strdup(const char *s1)
 {
 	char	*pointer;
-	int		lenght;
+	size_t	lenght;
+	size_t	i;
 
+	i = 0;
 	lenght = ft_strlen(s1);
-	pointer = malloc(lenght + 1);
+	pointer = (char *)malloc(sizeof(char) * lenght + 1);
 	if (pointer == NULL)
-	{
 		return (NULL);
+	while (pointer[i] != '\0')
+	{
+		pointer[i] = s1[i];
+		i++;
 	}
-	ft_memcpy(pointer, s1, lenght);
-	pointer[lenght] = '\0';
+	pointer[i] = '\0';
 	return (pointer);
 }
 
@@ -159,4 +141,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substring[j] = '\0';
 	return (substring);
 }
-
