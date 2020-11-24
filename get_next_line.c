@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   gnl_test.c                                         :+:    :+:            */
+/*   get_next_line.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/17 12:37:07 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/24 10:43:09 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/24 12:31:41 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+static char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
 	size_t	i;
@@ -38,7 +38,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-char	*str_new(size_t size)
+static char		*str_new(size_t size)
 {
 	void	*ptr;
 	size_t	i;
@@ -58,7 +58,7 @@ char	*str_new(size_t size)
 	return ((char *)ptr);
 }
 
-void	ft_strdel(char **as)
+static void		ft_strdel(char **as)
 {
 	if (as)
 	{
@@ -67,14 +67,14 @@ void	ft_strdel(char **as)
 	}
 }
 
-static int	string_output(int fd, char **line, char **array)
+static int		string_output(int fd, char **line, char **array)
 {
 	int		i;
 	char	*temp;
 
 	i = 0;
 	while (array[fd][i] != '\n' && array[fd][i] != '\0')
-		i = i + 1;
+		i++;
 	if (array[fd][i] == '\n')
 	{
 		*line = ft_substr(array[fd], 0, i);
@@ -92,7 +92,7 @@ static int	string_output(int fd, char **line, char **array)
 	return (1);
 }
 
-int			get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static char	*array[FD_SIZE];
 	char		buffer[BUFF_SIZE + 1];
@@ -101,7 +101,8 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || fd > FD_SIZE || line == NULL)
 		return (-1);
-	while ((reader = read(fd, buffer, BUFF_SIZE)) > 0)
+	reader = read(fd, buffer, BUFF_SIZE);
+	while (reader > 0)
 	{
 		buffer[reader] = '\0';
 		if (array[fd] == NULL)
@@ -119,21 +120,38 @@ int			get_next_line(int fd, char **line)
 	return (string_output(fd, line, array));
 }
 
-int		main(void)
+int main(int argc, char **argv)
 {
-    char    *line;
-    int        fd1;
-    int        fd2;
-
-    fd1 = open("test1.txt", O_RDONLY);
-    fd2 = open("test2.txt", O_RDONLY);
-   get_next_line(fd1, &line);
-	    printf("%s\n", line);
-	get_next_line(fd1, &line);
-	    printf("%s\n", line);
-	get_next_line(fd1, &line);
-	    printf("%s\n", line);
-	get_next_line(fd1, &line);
-	   printf("%s\n", line);
+    int fd;
+    int ret;
+    int line;
+    char *buff;
+    line = 0;
+    if (argc == 2)
+    {
+        //open returns fd or -1 if it failed to open the file
+        fd = open(argv[1], O_RDONLY);
+        while ((ret = get_next_line(fd, &buff)) > 0)
+        {
+            printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+            free(buff);
+        }
+        printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+        if (ret == -1)
+            printf("-----------\nError\n");
+        else if (ret == 0)
+            printf("-----------\nEnd of file\n");
+        close(fd);
+    }
+    if (argc == 1)
+    {
+        while ((ret = get_next_line(0, &buff)) > 0)
+            printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+        if (ret == -1)
+            printf("-----------\nError\n");
+        else if (ret == 0)
+            printf("-----------\nEnd of stdin\n");
+        close(fd);
+    }
     return (0);
 }

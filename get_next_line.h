@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/21 10:17:18 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/24 10:43:19 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/24 11:25:55 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,12 @@
 # include <unistd.h>
 # include <stdio.h>
 
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	ft_strdel(char **as);
-
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+
+int		get_next_line(int fd, char **line);
 
 #endif
