@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/17 12:37:07 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/24 17:24:18 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/24 17:40:12 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int				get_next_line(int fd, char **line)
 	{
 		buffer[reader] = '\0';
 		if (array[fd] == NULL)
-			array[fd] = str_new(1);
+			array[fd] = ft_strdup(buffer);
 		temp = ft_strjoin(array[fd], buffer);
 		ft_strdel(&array[fd]);
 		array[fd] = temp;
