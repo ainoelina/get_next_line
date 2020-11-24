@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/21 10:17:18 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/22 14:28:15 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/24 10:43:19 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <stdio.h>
 
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	ft_strdel(char **as);
