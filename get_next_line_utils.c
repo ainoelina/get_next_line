@@ -5,69 +5,67 @@
 /*                                                     +:+                    */
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/24 10:41:09 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/29 12:43:31 by avuorio       ########   odam.nl         */
+/*   Created: 2020/11/29 14:55:41 by avuorio       #+#    #+#                 */
+/*   Updated: 2020/11/29 14:56:18 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	str_len(char *str)
 {
-	size_t length;
+	size_t i;
 
-	if (!s)
+	if (str == 0)
 		return (0);
-	length = 0;
-	while (s[length] != '\0')
-		length++;
-	return (length);
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *d, const void *s, size_t len)
 {
-	char	*destination;
-	char	*source;
+	char	*dest;
+	char	*src;
 	size_t	i;
 
-	destination = (char *)dst;
-	source = (char *)src;
-	if (source < destination)
+	dest = (char *)d;
+	src = (char *)s;
+	if (dest > src)
 		while (len > 0)
 		{
 			len--;
-			destination[len] = source[len];
+			dest[len] = src[len];
 		}
 	else
 	{
 		i = 0;
 		while (i < len)
 		{
-			destination[i] = source[i];
+			dest[i] = src[i];
 			i++;
 		}
 	}
-	return (dst);
+	return (d);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*join_strings(char *s1, char *s2)
 {
-	size_t	strlen1;
-	size_t	strlen2;
-	size_t	len;
-	char	*new;
+	size_t		len1;
+	size_t		len2;
+	size_t		len;
+	char		*new;
 
-	if (!s1 && !s2)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	strlen1 = ft_strlen(s1);
-	strlen2 = ft_strlen(s2);
-	len = strlen1 + strlen2 + 1;
+	len1 = str_len(s1);
+	len2 = str_len(s2);
+	len = len1 + len2 + 1;
 	new = malloc(sizeof(char) * len);
-	if (!new)
-		return (NULL);
-	ft_memmove(new, s1, strlen1);
-	ft_memmove(new + strlen1, s2, strlen2);
+	ft_memmove(new, s1, len1);
+	ft_memmove(new + len1, s2, len2);
 	new[len - 1] = '\0';
-//	free((char *)s1);
+	free((char *)s1);
 	return (new);
 }

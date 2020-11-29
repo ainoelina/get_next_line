@@ -5,69 +5,69 @@
 /*                                                     +:+                    */
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/17 12:37:07 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/29 12:42:06 by avuorio       ########   odam.nl         */
+/*   Created: 2020/11/29 13:28:24 by avuorio       #+#    #+#                 */
+/*   Updated: 2020/11/29 16:17:10 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*create_array(char *array)
+char	*create_rest(char *string)
 {
-	char	*new_array;
-	int		i;
-	int		j;
+	char	*remain;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
-	if (!array)
-		return (0);
-	while (array[i] && array[i] != '\n')
+	if (string == NULL)
+		return (NULL);
+	while (string[i] != '\0' && string[i] != '\n')
 		i++;
-	if (!array[i])
+	if (string[i] == 0)
 	{
-		free(array);
+		free(string);
 		return (0);
 	}
-	new_array = malloc(sizeof(char) * ((ft_strlen(array) - i) + 1));
-	if (!new_array)
+	remain = malloc(sizeof(char) * ((str_len(string) - i) + 1));
+	if (!remain)
 		return (0);
 	i++;
-	while (array[i] != '\0')
+	while (string[i] != '\0')
 	{
-		new_array[j] = array[i];
+		remain[j] = string[i];
 		j++;
 		i++;
 	}
-	new_array[j] = '\0';
-	free(array);
-	return (new_array);
+	remain[j] = '\0';
+	free(string);
+	return (remain);
 }
 
 char	*create_line(char *string)
 {
-	int		i;
-	char	*new_line;
+	char	*line;
+	size_t	i;
 
+	if (string == NULL)
+		return (NULL);
 	i = 0;
-	if (!string)
-		return (0);
 	while (string[i] != '\0' && string[i] != '\n')
 		i++;
-	new_line = malloc(sizeof(char) * (i + 1));
-	if (!new_line)
+	line = malloc(sizeof(char) * (i + 1));
+	if (!line)
 		return (0);
 	i = 0;
 	while (string[i] != '\0' && string[i] != '\n')
 	{
-		new_line[i] = string[i];
+		line[i] = string[i];
 		i++;
 	}
-	new_line[i] = '\0';
-	return (new_line);
+	line[i] = '\0';
+	return (line);
 }
 
-int		is_newline(char *string)
+int		contains_newline(char *string)
 {
 	int i;
 
@@ -83,32 +83,27 @@ int		is_newline(char *string)
 	return (0);
 }
 
-int				get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)
 {
-	static char	*str;
+	static char *rest;
 	char		*buffer;
 	int			reader;
 
-	if (fd < 0 || BUFF_SIZE <= 0 || line == NULL)
+	if (fd < 0 || line == NULL || BUFFER_SIZE <= 0)
 		return (-1);
 	reader = 1;
-	buffer = malloc(sizeof(char) * (BUFF_SIZE + 1));
-	if (!buffer)
-		return (-1);
-	while (!is_newline(str) && reader > 0)
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	while (!contains_newline(rest) && reader > 0)
 	{
-		reader = read(fd, buffer, BUFF_SIZE);
+		reader = read(fd, buffer, BUFFER_SIZE);
 		if (reader == -1)
-		{
-			free(buffer);
 			return (-1);
-		}
 		buffer[reader] = '\0';
-		str = ft_strjoin(str, buffer);
+		rest = join_strings(rest, buffer);
 	}
-//	free(buffer);
-	*line = create_line(str);
-	str = create_array(str);
+	free(buffer);
+	*line = create_line(rest);
+	rest = create_rest(rest);
 	if (reader == 0)
 		return (0);
 	return (1);
