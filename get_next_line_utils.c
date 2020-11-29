@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   gnl_test_utils.c                                   :+:    :+:            */
+/*   get_next_line_utils.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/24 10:41:09 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/24 10:42:05 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/11/29 11:10:20 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,69 +16,58 @@ size_t	ft_strlen(const char *s)
 {
 	size_t length;
 
+	if (!s)
+		return (0);
 	length = 0;
 	while (s[length] != '\0')
 		length++;
 	return (length);
 }
 
-char	*ft_strdup(const char *src)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*new;
-	int		i;
-	int		size;
+	char	*destination;
+	char	*source;
+	size_t	i;
 
-	size = ft_strlen(src);
-	new = malloc(sizeof(char) * (size + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (src[i])
+	destination = (char *)dst;
+	source = (char *)src;
+	if (source < destination)
+		while (len > 0)
+		{
+			len--;
+			destination[len] = source[len];
+		}
+	else
 	{
-		new[i] = src[i];
-		i++;
+		i = 0;
+		while (i < len)
+		{
+			destination[i] = source[i];
+			i++;
+		}
 	}
-	new[i] = '\0';
-	return (new);
+	return (dst);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			*new;
+	size_t	strlen1;
+	size_t	strlen2;
+	size_t	len;
+	char	*new;
 
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	new = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	strlen1 = ft_strlen(s1);
+	strlen2 = ft_strlen(s2);
+	len = strlen1 + strlen2 + 1;
+	new = malloc(sizeof(char) * len);
 	if (!new)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		new[i] = s2[j];
-		i++;
-		j++;
-	}
-	new[i] = '\0';
+	ft_memmove(new, s1, strlen1);
+	ft_memmove(new + strlen1, s2, strlen2);
+	new[len - 1] = '\0';
+//	free((char *)s1);
 	return (new);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s != '\0')
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (0);
 }
