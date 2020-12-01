@@ -53,6 +53,8 @@ char	*join_strings(char *s1, char *s2)
 	len2 = str_len(s2);
 	len = len1 + len2 + 1;
 	new = malloc(sizeof(char) * len);
+	if (!new)
+		return (NULL);
 	ft_memmove(new, s1, len1);
 	ft_memmove(new + len1, s2, len2);
 	new[len - 1] = '\0';
@@ -153,6 +155,8 @@ int		get_next_line(int fd, char **line)
 		}
 		buffer[reader] = '\0';
 		rest = join_strings(rest, buffer);
+		if (!join_strings)
+			return (-1);
 	}
 	free(buffer);
 	*line = create_line(rest);
