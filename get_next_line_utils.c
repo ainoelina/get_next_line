@@ -6,11 +6,23 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 14:55:41 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/29 14:56:18 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 12:04:31 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*null_return(char *string)
+{
+	free(string);
+	return (0);
+}
+
+int		minus_return(char *buffer)
+{
+	free(buffer);
+	return (-1);
+}
 
 size_t	str_len(char *str)
 {

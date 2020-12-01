@@ -6,19 +6,13 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 13:28:24 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/12/01 11:27:22 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 12:23:27 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*null_return(char *string)
-{
-	free(string);
-	return (0);
-}
-
-char	*create_rest(char *string)
+char	*create_rest(char *rest)
 {
 	char	*remain;
 	size_t	i;
@@ -26,24 +20,24 @@ char	*create_rest(char *string)
 
 	i = 0;
 	j = 0;
-	if (string == NULL)
+	if (rest == NULL)
 		return (NULL);
-	while (string[i] != '\0' && string[i] != '\n')
+	while (rest[i] != '\0' && rest[i] != '\n')
 		i++;
-	if (string[i] == 0)
-		return (null_return(string));
-	remain = malloc(sizeof(char) * ((str_len(string) - i) + 1));
+	if (rest[i] == 0)
+		return (null_return(rest));
+	remain = malloc(sizeof(char) * ((str_len(rest) - i) + 1));
 	if (!remain)
 		return (0);
 	i++;
-	while (string[i] != '\0')
+	while (rest[i] != '\0')
 	{
-		remain[j] = string[i];
+		remain[j] = rest[i];
 		j++;
 		i++;
 	}
 	remain[j] = '\0';
-	free(string);
+	free(rest);
 	return (remain);
 }
 
@@ -86,21 +80,30 @@ int		contains_newline(char *string)
 	return (0);
 }
 
+int		return_value(int reader)
+{
+	if (reader == 0)
+		return (0);
+	return (1);
+}
+
 int		get_next_line(int fd, char **line)
 {
 	static char *rest;
 	char		*buffer;
 	int			reader;
 
+	reader = 1;
 	if (fd < 0 || line == NULL || BUFFER_SIZE <= 0)
 		return (-1);
-	reader = 1;
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (-1);
 	while (!contains_newline(rest) && reader > 0)
 	{
 		reader = read(fd, buffer, BUFFER_SIZE);
 		if (reader == -1)
-			return (-1);
+			return (minus_return(buffer));
 		buffer[reader] = '\0';
 		rest = join_strings(rest, buffer);
 		if (!rest)
@@ -109,7 +112,5 @@ int		get_next_line(int fd, char **line)
 	free(buffer);
 	*line = create_line(rest);
 	rest = create_rest(rest);
-	if (reader == 0)
-		return (0);
-	return (1);
+	return (return_value(reader));
 }
