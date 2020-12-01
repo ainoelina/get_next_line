@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 14:56:46 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/12/01 12:04:56 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 12:47:04 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
-# include <sys/types.h>
-# include <sys/uio.h>
 # include <unistd.h>
 
 int		get_next_line(int fd, char **line);

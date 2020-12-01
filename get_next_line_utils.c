@@ -6,7 +6,7 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 14:55:41 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/12/01 12:04:31 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 14:37:22 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,28 @@ void	*ft_memmove(void *d, const void *s, size_t len)
 	return (d);
 }
 
-char	*join_strings(char *s1, char *s2)
+char	*join_strings(char *rest, char *buffer)
 {
 	size_t		len1;
 	size_t		len2;
 	size_t		len;
 	char		*new;
 
-	if (s1 == NULL && s2 == NULL)
+	if (rest == NULL && buffer == NULL)
 		return (NULL);
-	len1 = str_len(s1);
-	len2 = str_len(s2);
+	len1 = str_len(rest);
+	len2 = str_len(buffer);
 	len = len1 + len2 + 1;
 	new = malloc(sizeof(char) * len);
-	ft_memmove(new, s1, len1);
-	ft_memmove(new + len1, s2, len2);
+	if (!new)
+	{
+		free((char *)rest);
+		free((char *)buffer);
+		return (NULL);
+	}
+	ft_memmove(new, rest, len1);
+	ft_memmove(new + len1, buffer, len2);
 	new[len - 1] = '\0';
-	free((char *)s1);
+	free((char *)rest);
 	return (new);
 }

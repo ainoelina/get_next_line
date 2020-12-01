@@ -6,13 +6,13 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 13:28:24 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/12/01 12:23:27 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 15:02:28 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*create_rest(char *rest)
+static char	*create_rest(char *rest)
 {
 	char	*remain;
 	size_t	i;
@@ -41,7 +41,7 @@ char	*create_rest(char *rest)
 	return (remain);
 }
 
-char	*create_line(char *string)
+static char	*create_line(char *string)
 {
 	char	*line;
 	size_t	i;
@@ -64,7 +64,7 @@ char	*create_line(char *string)
 	return (line);
 }
 
-int		contains_newline(char *string)
+static int	contains_newline(char *string)
 {
 	int i;
 
@@ -80,14 +80,14 @@ int		contains_newline(char *string)
 	return (0);
 }
 
-int		return_value(int reader)
+static int	return_value(int reader)
 {
 	if (reader == 0)
 		return (0);
 	return (1);
 }
 
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char *rest;
 	char		*buffer;
