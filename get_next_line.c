@@ -6,11 +6,17 @@
 /*   By: avuorio <avuorio@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/29 13:28:24 by avuorio       #+#    #+#                 */
-/*   Updated: 2020/11/29 16:17:10 by avuorio       ########   odam.nl         */
+/*   Updated: 2020/12/01 11:27:22 by avuorio       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*null_return(char *string)
+{
+	free(string);
+	return (0);
+}
 
 char	*create_rest(char *string)
 {
@@ -25,10 +31,7 @@ char	*create_rest(char *string)
 	while (string[i] != '\0' && string[i] != '\n')
 		i++;
 	if (string[i] == 0)
-	{
-		free(string);
-		return (0);
-	}
+		return (null_return(string));
 	remain = malloc(sizeof(char) * ((str_len(string) - i) + 1));
 	if (!remain)
 		return (0);
@@ -100,6 +103,8 @@ int		get_next_line(int fd, char **line)
 			return (-1);
 		buffer[reader] = '\0';
 		rest = join_strings(rest, buffer);
+		if (!rest)
+			return (-1);
 	}
 	free(buffer);
 	*line = create_line(rest);
